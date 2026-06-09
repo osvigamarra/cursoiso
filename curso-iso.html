@@ -173,45 +173,147 @@ function prev(){ if(i>0){i--;show();}}
 show();
 
 /* QUIZ */
-const preguntas=[
-"PHVA significa",
-"Cláusula 4",
-"Cláusula 5",
-"Riesgos",
-"Recursos",
-"Cláusula 8",
-"Auditorías",
-"Mejora continua",
-"Cliente",
-"Objetivo ISO"
+
+const preguntas = [
+{
+  pregunta: "¿Qué significa el ciclo PHVA?",
+  opciones: [
+    "Planear, Hacer, Verificar, Actuar",
+    "Pensar, Hacer, Validar, Aplicar",
+    "Planificar, Habilitar, Valorar, Asegurar",
+    "Programar, Hacer, Validar, Ajustar"
+  ],
+  correcta: 0
+},
+{
+  pregunta: "¿En qué fase se identifican las partes interesadas?",
+  opciones: [
+    "Hacer",
+    "Planear",
+    "Verificar",
+    "Actuar"
+  ],
+  correcta: 1
+},
+{
+  pregunta: "¿Cuál cláusula corresponde al contexto de la organización?",
+  opciones: [
+    "Cláusula 5",
+    "Cláusula 6",
+    "Cláusula 4",
+    "Cláusula 8"
+  ],
+  correcta: 2
+},
+{
+  pregunta: "¿En qué fase del PHVA se gestionan los riesgos?",
+  opciones: [
+    "Actuar",
+    "Verificar",
+    "Planear",
+    "Hacer"
+  ],
+  correcta: 2
+},
+{
+  pregunta: "La gestión de recursos pertenece principalmente a:",
+  opciones: [
+    "Verificar",
+    "Hacer",
+    "Actuar",
+    "Planear"
+  ],
+  correcta: 1
+},
+{
+  pregunta: "¿Cuál es el objetivo principal de la fase 'Hacer'?",
+  opciones: [
+    "Auditar procesos",
+    "Definir políticas",
+    "Implementar lo planificado",
+    "Evaluar desempeño"
+  ],
+  correcta: 2
+},
+{
+  pregunta: "¿Dónde se realizan las auditorías internas?",
+  opciones: [
+    "Planear",
+    "Verificar",
+    "Actuar",
+    "Hacer"
+  ],
+  correcta: 1
+},
+{
+  pregunta: "¿Qué se evalúa en la fase 'Verificar'?",
+  opciones: [
+    "Los recursos",
+    "El contexto",
+    "El desempeño y resultados",
+    "La planificación"
+  ],
+  correcta: 2
+},
+{
+  pregunta: "¿La mejora continua corresponde a qué fase?",
+  opciones: [
+    "Hacer",
+    "Planear",
+    "Actuar",
+    "Verificar"
+  ],
+  correcta: 2
+},
+{
+  pregunta: "¿Cuál es el propósito principal de la ISO 9001:2015?",
+  opciones: [
+    "Reducir costos únicamente",
+    "Aumentar documentación",
+    "Garantizar la satisfacción del cliente y mejora continua",
+    "Eliminar auditorías"
+  ],
+  correcta: 2
+}
 ];
 
-const quiz=document.getElementById("quiz");
 
-preguntas.forEach((p,i)=>{
- quiz.innerHTML+=`
- <p>${i+1}. ${p}<br>
- <input type="radio" name="q${i}" value="1">Correcta<br>
- <input type="radio" name="q${i}" value="0">Incorrecta</p>`;
-});
+const quiz = document.getElementById("quiz");
+
+preguntas.forEach((p, i) => {
+  let html = `<p><b>${i+1}. ${p.pregunta}</b><br>`;
+  
+  p.opciones.forEach((op, j) => {
+    html += `
+      <input type="radio" name="q${i}" value="${j}">
+      ${op}<br>`;
+  });
+
+  html += `</p>`;
+  quiz.innerHTML += html;
+});  
 
 let score=0;
 
+
 function calcular(){
- score=0;
+  score = 0;
 
- for(let i=0;i<10;i++){
-  let r=document.querySelector('input[name="q'+i+'"]:checked');
-  if(r) score+=parseInt(r.value);
- }
+  for(let i=0; i<preguntas.length; i++){
+    let r=document.querySelector('input[name="q'+i+'"]:checked');
 
- document.getElementById("resultado").innerText="Puntaje: "+score+"/10";
+    if(r && parseInt(r.value) === preguntas[i].correcta){
+      score++;
+    }
+  }
 
- if(score>=8){
-  document.getElementById("popup").style.display="flex";
- } else{
-  alert("Debes aprobar con mínimo 8/10");
- }
+  document.getElementById("resultado").innerText="Puntaje: "+score+"/10";
+
+  if(score>=8){
+    document.getElementById("popup").style.display="flex";
+  } else{
+    alert("Debes aprobar con mínimo 8/10");
+  }
 }
 
 function cerrar(){
